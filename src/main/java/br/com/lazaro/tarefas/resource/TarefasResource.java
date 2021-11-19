@@ -5,6 +5,8 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,12 @@ public class TarefasResource {
 		TarefaView tarefaView = tarefaService.save(tarefaForm);
 		URI uri = URI.create("/tarefas/").resolve(tarefaView.getId().toString());
 		return ResponseEntity.created(uri).build();
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<TarefaView> findById(@PathVariable Long id) {
+		TarefaView tarefaView = tarefaService.findById(id);
+		return ResponseEntity.ok(tarefaView);
 	}
 
 }

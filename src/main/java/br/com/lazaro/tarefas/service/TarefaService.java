@@ -1,6 +1,7 @@
 package br.com.lazaro.tarefas.service;
 
 import java.util.Calendar;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,8 @@ public class TarefaService {
 	
 	private final TarefaFormMapper tarefaFormMapper;
 	
+	private final TarefaViewMapper tarefaViewMapper;
+	
 	private final TarefaRepository tarefaRepository;
 	
 	public TarefaView save(TarefaForm tarefaForm) {
@@ -23,6 +26,14 @@ public class TarefaService {
 		tarefa.setDataCriacao(Calendar.getInstance());
 		tarefa = tarefaRepository.save(tarefa);
 		return new TarefaView(tarefa);
+	}
+	
+	public TarefaView findById(Long id) {
+		Optional<Tarefa> tarefaOptional = tarefaRepository.findById(id);
+		if (tarefaOptional.isPresent()) {
+			return tarefaViewMapper.map(tarefaOptional.get());
+		}
+		return null;
 	}
 
 }
