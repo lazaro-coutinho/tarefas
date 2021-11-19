@@ -1,5 +1,8 @@
 package br.com.lazaro.tarefas.model;
 
+import java.util.Calendar;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,6 +26,11 @@ public class Tarefa {
 	private String nome;
 	
 	private String descricao;
+	
+	private boolean ativo;
+	
+	@Column(name = "data_criacao")
+	private Calendar dataCriacao;
 	
 	public Tarefa(String nome, String descricao) {
 		this.nome = nome;
