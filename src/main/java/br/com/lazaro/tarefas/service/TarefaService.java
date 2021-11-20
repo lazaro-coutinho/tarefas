@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.com.lazaro.tarefas.exceptions.TarefaNotFoundException;
 import br.com.lazaro.tarefas.model.Tarefa;
 import br.com.lazaro.tarefas.repository.TarefaRepository;
 import lombok.AllArgsConstructor;
@@ -30,10 +31,10 @@ public class TarefaService {
 	
 	public TarefaView findById(Long id) {
 		Optional<Tarefa> tarefaOptional = tarefaRepository.findById(id);
-		if (tarefaOptional.isPresent()) {
-			return tarefaViewMapper.map(tarefaOptional.get());
+		if (!tarefaOptional.isPresent()) {
+			throw new TarefaNotFoundException();
 		}
-		return null;
+		return tarefaViewMapper.map(tarefaOptional.get());
 	}
 
 }

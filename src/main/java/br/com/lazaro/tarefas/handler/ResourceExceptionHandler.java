@@ -12,6 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import br.com.lazaro.tarefas.exceptions.TarefaNotFoundException;
+
 @ControllerAdvice
 public class ResourceExceptionHandler {
 	
@@ -31,6 +33,17 @@ public class ResourceExceptionHandler {
 				.constraints(constraints)
 				.build();
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(constraintErrorView);
+	}
+	
+	@ExceptionHandler(TarefaNotFoundException.class)
+	public ResponseEntity<ErrorView> handlerTarefaNotFoundException(TarefaNotFoundException exception, HttpServletRequest request) {
+		ErrorView errorView = ErrorView.builder()
+				.titulo(exception.getMessage())
+				.mensagem("http://erros.tarefas.com/404")
+				.status(404)
+				.timestamp(System.currentTimeMillis())
+				.build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorView);
 	}
 
 }
