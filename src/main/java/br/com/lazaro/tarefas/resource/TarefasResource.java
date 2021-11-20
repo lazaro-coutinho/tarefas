@@ -1,6 +1,7 @@
 package br.com.lazaro.tarefas.resource;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -35,6 +36,12 @@ public class TarefasResource {
 	public ResponseEntity<TarefaView> findById(@PathVariable Long id) {
 		TarefaView tarefaView = tarefaService.findById(id);
 		return ResponseEntity.ok(tarefaView);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<TarefaView>> findAll() {
+		List<TarefaView> tarefasView = tarefaService.findAll();
+		return ResponseEntity.ok(tarefasView);
 	}
 
 }

@@ -1,7 +1,10 @@
 package br.com.lazaro.tarefas.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -35,6 +38,12 @@ public class TarefaService {
 			throw new TarefaNotFoundException();
 		}
 		return tarefaViewMapper.map(tarefaOptional.get());
+	}
+	
+	public List<TarefaView> findAll() {
+		return tarefaRepository.findAll()
+				.stream().map(t -> tarefaViewMapper.map(t))
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
 }
