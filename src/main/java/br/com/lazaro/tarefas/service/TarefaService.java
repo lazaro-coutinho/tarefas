@@ -39,6 +39,16 @@ public class TarefaService {
 		tarefaRepository.save(tarefa);
 	}
 	
+	public void remove(Long id) {
+		Optional<Tarefa> tarefaOptional = tarefaRepository.findById(id);
+		if (!tarefaOptional.isPresent()) {
+			throw new TarefaNotFoundException();
+		}
+		Tarefa tarefa = tarefaOptional.get();
+		tarefa.setAtivo(false);
+		tarefaRepository.save(tarefa);
+	}
+	
 	public TarefaView findById(Long id) {
 		Optional<Tarefa> tarefaOptional = tarefaRepository.findById(id);
 		if (!tarefaOptional.isPresent()) {
