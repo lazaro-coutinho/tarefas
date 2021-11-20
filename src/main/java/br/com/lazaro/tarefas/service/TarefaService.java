@@ -32,6 +32,13 @@ public class TarefaService {
 		return new TarefaView(tarefa);
 	}
 	
+	public void update(Long id, TarefaForm tarefaForm) {
+		Tarefa tarefa = tarefaFormMapper.map(tarefaForm);
+		tarefa.setId(id);
+		exists(tarefa);
+		tarefaRepository.save(tarefa);
+	}
+	
 	public TarefaView findById(Long id) {
 		Optional<Tarefa> tarefaOptional = tarefaRepository.findById(id);
 		if (!tarefaOptional.isPresent()) {
@@ -44,6 +51,10 @@ public class TarefaService {
 		return tarefaRepository.findAll()
 				.stream().map(t -> tarefaViewMapper.map(t))
 				.collect(Collectors.toCollection(ArrayList::new));
+	}
+	
+	private void exists(Tarefa tarefa) {
+		findById(tarefa.getId());
 	}
 
 }
