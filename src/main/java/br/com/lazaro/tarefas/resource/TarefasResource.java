@@ -19,15 +19,24 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.lazaro.tarefas.service.TarefaForm;
 import br.com.lazaro.tarefas.service.TarefaService;
 import br.com.lazaro.tarefas.service.TarefaView;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/tarefas")
+@RequestMapping(path = "/tarefas", produces = "application/json")
 @AllArgsConstructor
 public class TarefasResource {
 	
 	private final TarefaService tarefaService;
 	
+	@ApiOperation("Salva uma tarefa")
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "Criou uma tarefa"),
+			@ApiResponse(code = 400, message = "Tarefa inválida"),
+			@ApiResponse(code = 500, message = "Ocorreu um erro na api ao criar uma tarefa")
+	})
 	@PostMapping
 	public ResponseEntity<Void> save(@RequestBody @Valid TarefaForm tarefaForm) {
 		TarefaView tarefaView = tarefaService.save(tarefaForm);
