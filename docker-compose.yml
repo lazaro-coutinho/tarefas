@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+        database:
+                image: postgres
+                environment:
+                        POSTGRES_USERNAME: postgres
+                        POSTGRES_PASSWORD: postgres
+                        POSTGRES_DB: tarefas
+                volumes:
+                - db-volume:/var/lib/postgres/data
+        
+        api:
+                image: belasoft/tarefas
+                environment:
+                        DB_HOST: database
+                ports:
+                        - "8080:8080"
+volumes:
+        db-volume:
