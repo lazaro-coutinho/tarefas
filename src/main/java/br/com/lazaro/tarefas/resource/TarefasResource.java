@@ -20,6 +20,7 @@ import br.com.lazaro.tarefas.service.TarefaForm;
 import br.com.lazaro.tarefas.service.TarefaService;
 import br.com.lazaro.tarefas.service.TarefaView;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
@@ -33,7 +34,7 @@ public class TarefasResource {
 	
 	@ApiOperation("Salva uma tarefa")
 	@ApiResponses(value = {
-			@ApiResponse(code = 201, message = "Criou uma tarefa"),
+			@ApiResponse(code = 201, message = "Tarefa criada"),
 			@ApiResponse(code = 400, message = "Tarefa inválida"),
 			@ApiResponse(code = 500, message = "Ocorreu um erro na api ao criar uma tarefa")
 	})
@@ -44,26 +45,44 @@ public class TarefasResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation("Atualiza uma tarefa")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Ok"),
+			@ApiResponse(code = 204, message = "Tarefa atualizada"),
+			@ApiResponse(code = 404, message = "Not found"),
+			@ApiResponse(code = 500, message = "Ocorreu um erro na api ao atualizar uma tarefa")
+	})
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid TarefaForm tarefaForm) {
 		tarefaService.update(id, tarefaForm);
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation("Remove uma tarefa")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Tarefa removida"),
+			@ApiResponse(code = 404, message = "Not found"),
+	})
 	@DeleteMapping("/{id}")
 	public void remove(@PathVariable Long id) {
 		tarefaService.remove(id);
 	}
 	
+	@ApiOperation("Busca uma tarefa pelo Id")
 	@GetMapping("/{id}")
 	public ResponseEntity<TarefaView> findById(@PathVariable Long id) {
 		TarefaView tarefaView = tarefaService.findById(id);
 		return ResponseEntity.ok(tarefaView);
 	}
 	
+	@ApiOperation("Pesquisa uma ou mais tarefas")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Ok"),
+			@ApiResponse(code = 500, message = "Ocorreu um erro na api ao pesquisar uma ou mais tarefas")
+	})
 	@GetMapping
-	public ResponseEntity<List<TarefaView>> findByName(@RequestParam(value = "nome", required = false) String nome) {
-		List<TarefaView> tarefasView = tarefaService.findByName(nome);
+	public ResponseEntity<List<TarefaView>> find(@ApiParam(value = "Nome da tarefa") @RequestParam(value = "nome", required = false) String nome) {
+		List<TarefaView> tarefasView = tarefaService.find(nome);
 		return ResponseEntity.ok(tarefasView);
 	}
 

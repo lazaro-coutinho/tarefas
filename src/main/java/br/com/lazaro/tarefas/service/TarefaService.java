@@ -63,7 +63,7 @@ public class TarefaService {
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 	
-	public List<TarefaView> findByName(String nome) {
+	public List<TarefaView> find(String nome) {
 		if (nome == null) {
 			nome = "";
 		}

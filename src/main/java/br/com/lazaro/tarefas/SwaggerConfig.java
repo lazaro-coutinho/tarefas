@@ -11,7 +11,6 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
@@ -53,7 +52,6 @@ public class SwaggerConfig {
 					new ResponseMessageBuilder()
 					.code(500)
 					.message("Erro 500")
-					.responseModel(new ModelRef("Error"))
 					.build(),
 					new ResponseMessageBuilder()
 					.code(201)
