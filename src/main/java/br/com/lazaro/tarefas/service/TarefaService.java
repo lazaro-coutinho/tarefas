@@ -63,6 +63,15 @@ public class TarefaService {
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 	
+	public List<TarefaView> findByName(String nome) {
+		if (nome == null) {
+			nome = "";
+		}
+		return tarefaRepository.find(nome.toUpperCase())
+				.stream().map(t -> tarefaViewMapper.map(t))
+				.collect(Collectors.toCollection(ArrayList::new));
+	}
+	
 	private void exists(Tarefa tarefa) {
 		findById(tarefa.getId());
 	}

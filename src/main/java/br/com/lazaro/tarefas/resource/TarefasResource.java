@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lazaro.tarefas.service.TarefaForm;
@@ -52,8 +53,8 @@ public class TarefasResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<TarefaView>> findAll() {
-		List<TarefaView> tarefasView = tarefaService.findAll();
+	public ResponseEntity<List<TarefaView>> findByName(@RequestParam(value = "nome", required = false) String nome) {
+		List<TarefaView> tarefasView = tarefaService.findByName(nome);
 		return ResponseEntity.ok(tarefasView);
 	}
 
