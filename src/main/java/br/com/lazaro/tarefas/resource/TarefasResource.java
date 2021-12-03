@@ -85,5 +85,18 @@ public class TarefasResource {
 		List<TarefaView> tarefasView = tarefaService.find(nome);
 		return ResponseEntity.ok(tarefasView);
 	}
+	
+	@ApiOperation("Finaliza uma tarefa")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Ok"),
+			@ApiResponse(code = 204, message = "Tarefa finalizada"),
+			@ApiResponse(code = 404, message = "Not found"),
+			@ApiResponse(code = 500, message = "Ocorreu um erro na api ao finalizar uma tarefa")
+	})
+	@PutMapping("/{id}/finalizar")
+	public ResponseEntity<Void> finalizar(@PathVariable Long id) {
+		tarefaService.finalizar(id);
+		return ResponseEntity.noContent().build();
+	}
 
 }

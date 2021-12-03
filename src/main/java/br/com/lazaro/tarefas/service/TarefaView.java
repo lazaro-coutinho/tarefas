@@ -24,10 +24,14 @@ public class TarefaView {
 	@ApiModelProperty("Descrição da tarefa")
 	private String descricao;
 	
+	@ApiModelProperty("Status da tarefa (Criada ou Finalizada)")
+	private String status;
+	
 	public TarefaView(Tarefa tarefa) {
 		this.id = tarefa.getId();
 		this.nome = tarefa.getNome();
 		this.descricao = tarefa.getDescricao();
+		this.status = tarefa.getStatus().getNome();
 	}
 
 }

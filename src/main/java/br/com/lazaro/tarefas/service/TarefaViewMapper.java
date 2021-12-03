@@ -14,6 +14,7 @@ public class TarefaViewMapper implements Mapper<Tarefa, TarefaView> {
 				.id(tarefa.getId())
 				.nome(tarefa.getNome())
 				.descricao(tarefa.getDescricao())
+				.status(tarefa.getStatus().getNome())
 				.build();
 	}
 	

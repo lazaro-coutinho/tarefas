@@ -29,12 +29,22 @@ public class Tarefa {
 	
 	private boolean ativo;
 	
+	private Status status;
+	
 	@Column(name = "data_criacao")
 	private Calendar dataCriacao;
 	
 	public Tarefa(String nome, String descricao) {
 		this.nome = nome;
 		this.descricao = descricao;
+	}
+	
+	public void criar() {
+		this.status = Status.CRIADA;
+	}
+	
+	public void finalizar() {
+		this.status = Status.FINALIZADA;
 	}
 	
 }

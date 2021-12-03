@@ -28,14 +28,16 @@ public class TarefaService {
 		tarefa.setId(null);
 		tarefa.setAtivo(true);
 		tarefa.setDataCriacao(Calendar.getInstance());
+		tarefa.criar();
 		tarefa = tarefaRepository.save(tarefa);
 		return new TarefaView(tarefa);
 	}
 	
 	public void update(Long id, TarefaForm tarefaForm) {
-		Tarefa tarefa = tarefaFormMapper.map(tarefaForm);
-		tarefa.setId(id);
+		Tarefa tarefa = tarefaRepository.getById(id);
 		exists(tarefa);
+		tarefa.setNome(tarefaForm.getNome());
+		tarefa.setDescricao(tarefaForm.getDescricao());
 		tarefaRepository.save(tarefa);
 	}
 	
@@ -70,6 +72,13 @@ public class TarefaService {
 		return tarefaRepository.find(nome.toUpperCase())
 				.stream().map(t -> tarefaViewMapper.map(t))
 				.collect(Collectors.toCollection(ArrayList::new));
+	}
+	
+	public void finalizar(Long id) {
+		Tarefa tarefa = tarefaRepository.getById(id);
+		exists(tarefa);
+		tarefa.finalizar();
+		tarefaRepository.save(tarefa);
 	}
 	
 	private void exists(Tarefa tarefa) {

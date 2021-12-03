@@ -1,0 +1,1 @@
+alter table tarefa add column status varchar(50);
