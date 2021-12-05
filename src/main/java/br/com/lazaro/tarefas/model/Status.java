@@ -3,7 +3,8 @@ package br.com.lazaro.tarefas.model;
 public enum Status {
 	
 	CRIADA("Criada"),
-	FINALIZADA("Finalizada");
+	FINALIZADA("Finalizada"),
+	ARQUIVADA("Arquivada");
 	
 	private final String nome;
 	

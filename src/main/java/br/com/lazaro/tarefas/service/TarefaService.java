@@ -74,10 +74,17 @@ public class TarefaService {
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 	
-	public void finalizar(Long id) {
-		Tarefa tarefa = tarefaRepository.getById(id);
+	public void finalizar(Long tarefaId) {
+		Tarefa tarefa = tarefaRepository.getById(tarefaId);
 		exists(tarefa);
 		tarefa.finalizar();
+		tarefaRepository.save(tarefa);
+	}
+	
+	public void arquivar(Long tarefaId) {
+		Tarefa tarefa = tarefaRepository.getById(tarefaId);
+		exists(tarefa);
+		tarefa.arquivar();
 		tarefaRepository.save(tarefa);
 	}
 	

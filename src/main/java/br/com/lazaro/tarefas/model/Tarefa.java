@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.com.lazaro.tarefas.exceptions.TarefaJaArquivadaException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,6 +46,11 @@ public class Tarefa {
 	
 	public void finalizar() {
 		this.status = Status.FINALIZADA;
+	}
+	
+	public void arquivar() {
+		if (Status.ARQUIVADA.equals(this.status)) throw new TarefaJaArquivadaException();
+		this.status = Status.ARQUIVADA;
 	}
 	
 }

@@ -98,5 +98,18 @@ public class TarefasResource {
 		tarefaService.finalizar(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@ApiOperation("Arquiva uma tarefa")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Ok"),
+			@ApiResponse(code = 204, message = "Tarefa arquivada"),
+			@ApiResponse(code = 404, message = "Not found"),
+			@ApiResponse(code = 500, message = "Ocorreu um erro na api ao arquivar uma tarefa")
+	})
+	@PutMapping("/{id}/arquivar")
+	public ResponseEntity<Void> arquivar(@PathVariable("id") Long tarefaId) {
+		tarefaService.arquivar(tarefaId);
+		return ResponseEntity.noContent().build();
+	}
 
 }
