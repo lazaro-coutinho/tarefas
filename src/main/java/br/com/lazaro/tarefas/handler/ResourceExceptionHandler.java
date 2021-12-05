@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.com.lazaro.tarefas.exceptions.TarefaJaArquivadaException;
+import br.com.lazaro.tarefas.exceptions.TarefaJaFinalizadaException;
 import br.com.lazaro.tarefas.exceptions.TarefaNotFoundException;
 
 @ControllerAdvice
@@ -49,6 +50,17 @@ public class ResourceExceptionHandler {
 	
 	@ExceptionHandler(TarefaJaArquivadaException.class)
 	public ResponseEntity<ErrorView> handlerTarefaJaArquivadaException(TarefaJaArquivadaException exception, HttpServletRequest request) {
+		ErrorView errorView = ErrorView.builder()
+				.titulo(exception.getMessage())
+				.mensagem("http://erros.tarefas.com/409")
+				.status(409)
+				.timestamp(System.currentTimeMillis())
+				.build();
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(errorView);
+	}
+	
+	@ExceptionHandler(TarefaJaFinalizadaException.class)
+	public ResponseEntity<ErrorView> handlerTarefaJaFinaliazadaException(TarefaJaFinalizadaException exception, HttpServletRequest request) {
 		ErrorView errorView = ErrorView.builder()
 				.titulo(exception.getMessage())
 				.mensagem("http://erros.tarefas.com/409")
