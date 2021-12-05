@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import br.com.lazaro.tarefas.exceptions.TarefaNotFoundException;
+import br.com.lazaro.tarefas.model.Status;
 import br.com.lazaro.tarefas.model.Tarefa;
 import br.com.lazaro.tarefas.repository.TarefaRepository;
 import lombok.AllArgsConstructor;
@@ -69,7 +70,7 @@ public class TarefaService {
 		if (nome == null) {
 			nome = "";
 		}
-		return tarefaRepository.find(nome.toUpperCase())
+		return tarefaRepository.find(nome.toUpperCase(), Status.ARQUIVADA)
 				.stream().map(t -> tarefaViewMapper.map(t))
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
