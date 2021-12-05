@@ -11,7 +11,7 @@ services:
                 - db-volume:/var/lib/postgres/data
         
         api:
-                image: belasoft/tarefas
+                image: belasoft/tarefas:0.0.1-SNAPSHOT
                 environment:
                         DB_HOST: database
                 ports:
