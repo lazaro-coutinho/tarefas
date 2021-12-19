@@ -91,6 +91,7 @@ public class TarefasResource {
 			@ApiResponse(code = 200, message = "Ok"),
 			@ApiResponse(code = 204, message = "Tarefa finalizada"),
 			@ApiResponse(code = 404, message = "Not found"),
+			@ApiResponse(code = 409, message = "Tarefa já finalizada"),
 			@ApiResponse(code = 500, message = "Ocorreu um erro na api ao finalizar uma tarefa")
 	})
 	@PutMapping("/{id}/finalizar")
@@ -104,6 +105,7 @@ public class TarefasResource {
 			@ApiResponse(code = 200, message = "Ok"),
 			@ApiResponse(code = 204, message = "Tarefa arquivada"),
 			@ApiResponse(code = 404, message = "Not found"),
+			@ApiResponse(code = 409, message = "Tarefa já arquivada"),
 			@ApiResponse(code = 500, message = "Ocorreu um erro na api ao arquivar uma tarefa")
 	})
 	@PutMapping("/{id}/arquivar")
