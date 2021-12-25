@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
-	public static final long EXPIRATION_TIME = 2000;
+	public static final long EXPIRATION_TIME = 600000;
 
 	public static final String SECRET = "8fc10bbf-b69a-4907-a1a5-52ff25ffd0a1";
 
