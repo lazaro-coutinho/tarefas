@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping(path = "/tarefas", produces = "application/json")
+@RequestMapping(path = "/api/tarefas", produces = "application/json")
 @AllArgsConstructor
 public class TarefasResource {
 	
