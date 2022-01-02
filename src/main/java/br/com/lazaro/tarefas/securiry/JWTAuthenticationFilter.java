@@ -24,7 +24,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-	
+
 	public static final long EXPIRATION_TIME = 600000;
 
 	public static final String SECRET = "8fc10bbf-b69a-4907-a1a5-52ff25ffd0a1";
@@ -32,50 +32,43 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	public static final String TOKEN_PREFIX = "Bearer";
 
 	public static final String HEADER_STRING = "Authorization";
-	
+
 	private final AuthenticationManager authenticationManager;
-	
+
 	@Override
-	public Authentication attemptAuthentication(
-			HttpServletRequest request,
-			HttpServletResponse response)
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		
+
 		try {
-			
-			Usuario usuario = new ObjectMapper()
-					.readValue(request.getInputStream(), Usuario.class);
-			
-			return authenticationManager
-					.authenticate(new UsernamePasswordAuthenticationToken(
-							usuario.getLogin(),
-							usuario.getSenha(),
-							usuario.getAuthorities()));
-			
+
+			Usuario usuario = new ObjectMapper().readValue(request.getInputStream(), Usuario.class);
+
+			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuario.getLogin(),
+					usuario.getSenha(), usuario.getAuthorities()));
+
 		} catch (Exception e) {
 			throw new RuntimeException("Falha ao autenticar usuário", e);
 		}
-		
+
 	}
-	
+
 	@Override
-	protected void successfulAuthentication(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			FilterChain chain,
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		
+
 		User user = (User) authResult.getPrincipal();
-		
-		String token = Jwts.builder()
-				.setSubject(user.getUsername())
+
+		String token = Jwts.builder().setSubject(user.getUsername())
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-				.signWith(SignatureAlgorithm.HS512, SECRET)
-				.compact();
+				.signWith(SignatureAlgorithm.HS512, SECRET).compact();
+
+		response.addHeader(HEADER_STRING, token);
 		
-		response.getWriter().write(token);
+		response.addHeader("Access-Control-Allow-Origin", "*");
+
+		response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
 		response.getWriter().flush();
-		
+
 	}
 
 }
