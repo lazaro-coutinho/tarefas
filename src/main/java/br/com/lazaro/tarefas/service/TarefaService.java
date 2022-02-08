@@ -1,16 +1,19 @@
 package br.com.lazaro.tarefas.service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import br.com.lazaro.tarefas.domain.usecase.CriarTarefaUseCase;
+import br.com.lazaro.tarefas.domain.usecase.TarefaDto;
+import br.com.lazaro.tarefas.domain.usecase.TarefaEvent;
 import br.com.lazaro.tarefas.exceptions.TarefaNotFoundException;
 import br.com.lazaro.tarefas.model.Status;
 import br.com.lazaro.tarefas.model.Tarefa;
+import br.com.lazaro.tarefas.repository.TarefaCriadaEvent;
 import br.com.lazaro.tarefas.repository.TarefaRepository;
 import lombok.AllArgsConstructor;
 
@@ -24,14 +27,27 @@ public class TarefaService {
 	
 	private final TarefaRepository tarefaRepository;
 	
+	private final TarefaCriadaEvent tarefaCriadaEvent;
+	
+	private CriarTarefaUseCase criarTarefaUseCase;
+	
 	public TarefaView save(TarefaForm tarefaForm) {
+		
+		List<TarefaEvent> events = new ArrayList<>();
+		events.add(tarefaCriadaEvent);
+		criarTarefaUseCase = new CriarTarefaUseCase(events);
+		
 		Tarefa tarefa = tarefaFormMapper.map(tarefaForm);
-		tarefa.setId(null);
-		tarefa.setAtivo(true);
-		tarefa.setDataCriacao(Calendar.getInstance());
-		tarefa.criar();
-		tarefa = tarefaRepository.save(tarefa);
+		
+		TarefaDto tarefaDto = TarefaDto.builder()
+				.nome(tarefaForm.getNome())
+				.descricao(tarefaForm.getDescricao())
+				.build();
+		
+		tarefa = criarTarefaUseCase.execute(tarefaDto);
+		
 		return new TarefaView(tarefa);
+		
 	}
 	
 	public void update(Long id, TarefaForm tarefaForm) {

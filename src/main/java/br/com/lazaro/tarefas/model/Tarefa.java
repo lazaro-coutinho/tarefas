@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import br.com.lazaro.tarefas.domain.service.CriarTarefaAction;
 import br.com.lazaro.tarefas.exceptions.TarefaJaArquivadaException;
 import br.com.lazaro.tarefas.exceptions.TarefaJaFinalizadaException;
 import lombok.Getter;
@@ -45,10 +46,12 @@ public class Tarefa {
 	public Tarefa(String nome, String descricao) {
 		this.nome = nome;
 		this.descricao = descricao;
+		this.ativo = true;
+		this.dataCriacao = Calendar.getInstance();
 	}
 	
-	public void criar() {
-		this.status = Status.CRIADA;
+	public void alterarStatus(CriarTarefaAction criarTarefaAction) {
+		status = criarTarefaAction.execute(this);
 	}
 	
 	public void finalizar() {
