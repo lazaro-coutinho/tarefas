@@ -64,7 +64,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 		response.addHeader(HEADER_STRING, token);
 		
-		response.addHeader("Access-Control-Allow-Origin", "*");
+		//response.addHeader("Access-Control-Allow-Origin", "*");
 
 		response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
 		response.getWriter().flush();
